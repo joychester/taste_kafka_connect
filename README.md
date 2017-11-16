@@ -90,9 +90,19 @@ $ ./connect-standalone ../etc/schema-registry/connect-avro-standalone.properties
 $ ./kafka-avro-console-consumer --new-consumer --bootstrap-server localhost:9092 --topic postgres_users --from-beginning
 ```
 
-PS. How to check Kafka messages length towards a Topic
+#### How to check Kafka messages length towards a Topic
 ```
 ./kafka-run-class kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic postgres_users --time -1
+```
+#### How to Delete a Topic
+
+First, edit ./etc/kafka/server.properties
+```
+delete.topic.enable=true
+```
+Then, remove the Topic by CLI
+```
+./kafka-topics --zookeeper localhost:2181 --delete --topic <topic_name>
 ```
 
 #### Reference
