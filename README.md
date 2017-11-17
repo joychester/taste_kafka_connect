@@ -47,7 +47,7 @@ $ ./kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --pa
 
 ### 8. List all Kafka topics
 ```
-$ ./kafka-topics --lost --zookeeper localhost:2181
+$ ./kafka-topics --list --zookeeper localhost:2181
 ```
 
 ### 9. create source-postgres.properties file
