@@ -106,8 +106,8 @@ Then, remove the Topic by CLI
 ```
 
 #### Reference
-[Syncing Redshift & PostgreSQL in real-time with Kafka Connect][1]
-[The Simplest Useful Kafka Connect Data Pipeline In The World][2]
+[Syncing Redshift & PostgreSQL in real-time with Kafka Connect][1]  
+[The Simplest Useful Kafka Connect Data Pipeline In The World][2]  
 
-  [1]: https://blog.insightdatascience.com/from-postgresql-to-redshift-with-kafka-connect-111c44954a6a
+  [1]: https://blog.insightdatascience.com/from-postgresql-to-redshift-with-kafka-connect-111c44954a6a 
   [2]: https://www.confluent.io/blog/simplest-useful-kafka-connect-data-pipeline-world-thereabouts-part-1/
