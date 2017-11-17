@@ -7,6 +7,7 @@
 
 - Install PostgreSQL Server (v10.1)
 - Install Confluent Platform (v3.3.1)
+- Install Elasticsearch (v5.6.4)
 
 ### 2. Create Database
 ```
@@ -80,7 +81,7 @@ incrementing.column.name=id
 topic.prefix=postgres-
 ```
 
-### 10. Start Standalone Kafka Connect
+### 10. Load Kafka Connect for Sourcing from PostgreSQL 
 ```
 $ ./confluent load source-postgres-test -d ../etc/kafka-connect-jdbc/source-postgres.properties
 ```
@@ -88,6 +89,30 @@ $ ./confluent load source-postgres-test -d ../etc/kafka-connect-jdbc/source-post
 ### 11. Start Kafka Consumer
 ```
 $ ./kafka-avro-console-consumer --new-consumer --bootstrap-server localhost:9092 --topic postgres-users --from-beginning
+```
+### 12. Start Elasticsearch server (v5.6.4 instead of v6.0.0)
+```
+$ ./elasticsearch
+```
+
+### 13. Create sink-es-test.properties file under /etc/kafka-connect-elasticsearch/
+```
+name=elasticsearch-sink-test
+connector.class=io.confluent.connect.elasticsearch.ElasticsearchSinkConnector
+tasks.max=1
+topics=postgres-users
+key.ignore=true
+connection.url=http://localhost:9200
+type.name=kafka-connect
+```
+### 14. Load Kafka Connect for Sinking to Elasticsearch 
+```
+./confluent load elasticsearch-sink-test -d ../etc/kafka-connect-elasticsearch/sink-es-test.properties
+```
+
+### 15. Verify the data return from Elasticsearch Rest API
+```
+GET http://localhost:9200/postgres-users/_search?q=name:<someone>
 ```
 
 #### How to check Kafka messages length towards a Topic
@@ -103,6 +128,10 @@ delete.topic.enable=true
 Then, remove the Topic by CLI
 ```
 ./kafka-topics --zookeeper localhost:2181 --delete --topic <topic_name>
+```
+#### How to check kafka connect status
+```
+./confluent status elasticsearch-sink-test
 ```
 
 #### Reference
