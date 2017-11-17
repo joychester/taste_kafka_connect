@@ -115,6 +115,8 @@ type.name=kafka-connect
 GET http://localhost:9200/postgres-users/_search?q=name:<someone>
 ```
 
+------
+
 #### How to check Kafka messages length towards a Topic
 ```
 ./kafka-run-class kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic postgres-users --time -1
