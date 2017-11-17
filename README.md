@@ -5,8 +5,8 @@
 
 ### 1. Preconditions
 
-- Install PostgreSQL Server
-- Install Confluent Platform
+- Install PostgreSQL Server (v10.1)
+- Install Confluent Platform (v3.3.1)
 
 ### 2. Create Database
 ```
@@ -34,15 +34,15 @@ INSERT INTO users (name, age) VALUES ('b', 24);
 INSERT INTO users (name, age) VALUES ('c', 25);
 ```
 
-### 5. Start Confluent server (kafka, zookeeper, schema-registry)
+### 5. Start Confluent server (kafka, zookeeper, schema-registry, connect, kafka-rest)
 
 ```
-$ ./confluent start schema-registry
+$ ./confluent start
 ```
 
 ### 7. Create Kafka Topic
 ```
-$ ./kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic postgres_users
+$ ./kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic postgres-users
 ```
 
 ### 8. List all Kafka topics
@@ -58,7 +58,7 @@ cp {/path/to/confluent}/etc/kafka-connect-jdbc/source-quickstart-sqlite.properti
 #### source-postgres.properties file content:
 ```
 #name for the connector
-name=source-postgres
+name=source-postgres-test
 
 connector.class=io.confluent.connect.jdbc.JdbcSourceConnector
 
@@ -77,17 +77,17 @@ timestamp.column.name=updated_at
 incrementing.column.name=id
 
 #to identify the Kafka topics ingested from PostgreSQL
-topic.prefix=postgres_
+topic.prefix=postgres-
 ```
 
 ### 10. Start Standalone Kafka Connect
 ```
-$ ./connect-standalone ../etc/schema-registry/connect-avro-standalone.properties ../etc/kafka-connect-jdbc/source-postgres.properties
+$ ./confluent load source-postgres-test -d ../etc/kafka-connect-jdbc/source-postgres.properties
 ```
 
 ### 11. Start Kafka Consumer
 ```
-$ ./kafka-avro-console-consumer --new-consumer --bootstrap-server localhost:9092 --topic postgres_users --from-beginning
+$ ./kafka-avro-console-consumer --new-consumer --bootstrap-server localhost:9092 --topic postgres-users --from-beginning
 ```
 
 #### How to check Kafka messages length towards a Topic
@@ -107,5 +107,7 @@ Then, remove the Topic by CLI
 
 #### Reference
 [Syncing Redshift & PostgreSQL in real-time with Kafka Connect][1]
+[The Simplest Useful Kafka Connect Data Pipeline In The World][2]
 
   [1]: https://blog.insightdatascience.com/from-postgresql-to-redshift-with-kafka-connect-111c44954a6a
+  [2]: https://www.confluent.io/blog/simplest-useful-kafka-connect-data-pipeline-world-thereabouts-part-1/
