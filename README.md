@@ -8,6 +8,7 @@
 - Install PostgreSQL Server (v10.1)
 - Install Confluent Platform (v3.3.1)
 - Install Elasticsearch (v5.6.4)
+- install Kibana (v5.6.4)
 
 ### 2. Create Database
 ```
@@ -53,7 +54,7 @@ $ ./kafka-topics --list --zookeeper localhost:2181
 
 ### 9. create source-postgres.properties file
 ```
-cp {/path/to/confluent}/etc/kafka-connect-jdbc/source-quickstart-sqlite.properties {/path/to/confluent}/etc/kafka-connect-jdbc/source-postgres.properties
+$ cp {/path/to/confluent}/etc/kafka-connect-jdbc/source-quickstart-sqlite.properties {/path/to/confluent}/etc/kafka-connect-jdbc/source-postgres.properties
 ```
 
 #### source-postgres.properties file content:
@@ -107,13 +108,27 @@ type.name=kafka-connect
 ```
 ### 14. Load Kafka Connect for Sinking to Elasticsearch 
 ```
-./confluent load elasticsearch-sink-test -d ../etc/kafka-connect-elasticsearch/sink-es-test.properties
+$ ./confluent load elasticsearch-sink-test -d ../etc/kafka-connect-elasticsearch/sink-es-test.properties
 ```
 
 ### 15. Verify the data return from Elasticsearch Rest API
 ```
 GET http://localhost:9200/postgres-users/_search?q=name:<someone>
 ```
+
+### 16. Edit config/kibana.yml
+```
+# The URL of the Elasticsearch instance to use for all your queries.
+elasticsearch.url: "http://localhost:9200"
+```
+
+### 17. Start Kibana Server
+```
+$ ./kibana
+```
+
+### 18. Open http://localhost:5601 to do the search and analysis work
+
 
 ------
 
