@@ -92,7 +92,7 @@ $ ./kafka-avro-console-consumer --new-consumer --bootstrap-server localhost:9092
 
 #### How to check Kafka messages length towards a Topic
 ```
-./kafka-run-class kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic postgres_users --time -1
+./kafka-run-class kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic postgres-users --time -1
 ```
 #### How to Delete a Topic
 
